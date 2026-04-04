@@ -1,0 +1,4 @@
+INTERFACE zif_data_ops_uld
+  PUBLIC .
+
+ENDINTERFACE.

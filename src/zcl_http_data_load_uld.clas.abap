@@ -71,11 +71,12 @@ CLASS zcl_http_data_load_uld IMPLEMENTATION.
         response->set_status( i_code = '400' i_reason = 'Bad Request' ).
         response->set_text( get_html_response( i_html_status = 'erro' i_html_message = |Método [{ http_method }] not implemented | ) ).
 
-
     ENDCASE.
 
   ENDMETHOD.
 
+
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   METHOD get_upload_page.
 
     html_upload_page =
@@ -194,13 +195,10 @@ CLASS zcl_http_data_load_uld IMPLEMENTATION.
   METHOD process_post_data.
 
 
-
     "Normalize parameters"
     i_parameters-db_action = to_upper( i_parameters-db_action ).
     i_parameters-has_header = to_upper( i_parameters-has_header ).
     i_parameters-table_name = to_upper( i_parameters-table_name ).
-
-
 
 
     CASE i_parameters-table_name.
@@ -213,11 +211,12 @@ CLASS zcl_http_data_load_uld IMPLEMENTATION.
 
       WHEN 'ZBR_ESTADOS'.
 
+        r_return = VALUE #( type = |E|
+                         message = |No process defined for the table: { i_parameters-table_name }| ).
 
       WHEN OTHERS.
 
     ENDCASE.
-
 
 
   ENDMETHOD.
@@ -226,18 +225,18 @@ CLASS zcl_http_data_load_uld IMPLEMENTATION.
   """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   METHOD get_html_response.
 
-    " valores para ERRO
+    "values ​​for ERROR"
     CONSTANTS : titulo_erro    TYPE string VALUE 'Erro',
                 subtitulo_erro TYPE string VALUE 'Falha na operação',
                 cor_erro       TYPE string VALUE '#f8d7da'.
 
 
-    " valores para SUCESSO
+    " Values ​​for SUCCESS
     CONSTANTS: titulo_sucesso    TYPE string VALUE 'Sucesso',
                subtitulo_sucerro TYPE string VALUE 'Operação Concluida',
                cor_sucesso       TYPE string VALUE '#d1e7dd'.
 
-    " valores para ocultar / mostrar icone
+    "values ​​to hide / show icon"
     CONSTANTS: icon_visible TYPE string VALUE 'block',
                icon_hidden  TYPE string VALUE 'none'.
 

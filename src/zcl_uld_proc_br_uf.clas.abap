@@ -2,7 +2,7 @@ CLASS zcl_uld_proc_br_uf DEFINITION PUBLIC FINAL CREATE PUBLIC.
   PUBLIC SECTION.
     INTERFACES: zif_data_ops_uld.
 
-    TYPES: tt_ibge_uf TYPE STANDARD TABLE OF zbr_estados WITH EMPTY KEY.
+    TYPES: tt_ibge_uf TYPE STANDARD TABLE OF ztbr_estados WITH EMPTY KEY.
 
     METHODS: parse_data IMPORTING VALUE(i_parameters) TYPE zif_data_ops_uld=>ty_method_parameters
                         RETURNING VALUE(t_uf)         TYPE tt_ibge_uf.
@@ -28,7 +28,7 @@ CLASS zcl_uld_proc_br_uf IMPLEMENTATION.
   METHOD create_records.
 
     TRY.
-        INSERT zbr_estados
+        INSERT ztbr_estados
           FROM TABLE @t_records.
 
         IF sy-subrc = 0.
@@ -77,7 +77,7 @@ CLASS zcl_uld_proc_br_uf IMPLEMENTATION.
 
 
     DATA: ls_raw_fields_line TYPE ty_raw_fields_line.
-    DATA: ls_uf_line TYPE zbr_estados.
+    DATA: ls_uf_line TYPE ztbr_estados.
 
     LOOP AT lt_file_lines INTO DATA(ls_file_line).
 
@@ -171,17 +171,17 @@ CLASS zcl_uld_proc_br_uf IMPLEMENTATION.
   """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   METHOD reset_table.
 
-    SELECT * FROM zbr_estados INTO TABLE @DATA(lt_ZBR_ESTADOS).
+    SELECT * FROM ztbr_estados INTO TABLE @DATA(lt_ZtBR_ESTADOS).
 
-    DELETE zbr_estados FROM TABLE @lt_ZBR_ESTADOS.
+    DELETE ztbr_estados FROM TABLE @lt_ZtBR_ESTADOS.
 
-    FREE: lt_ZBR_ESTADOS.
-    SELECT * FROM zbr_estados INTO TABLE @lt_ZBR_ESTADOS.
+    FREE: lt_ZtBR_ESTADOS.
+    SELECT * FROM ztbr_estados INTO TABLE @lt_ztbr_estados.
 
-    IF lt_ZBR_ESTADOS IS INITIAL.
-      r_result = VALUE #( type = 'S' message = 'Tabela ZBR_ESTADOS Limpa!' ).
+    IF lt_ZtBR_ESTADOS IS INITIAL.
+      r_result = VALUE #( type = 'S' message = 'Tabela ZTBR_ESTADOS Limpa!' ).
     ELSE.
-      r_result = VALUE #( type = 'E' message = 'Erro Desconhecido ao tentar limpar tabela ZBR_ESTADOS ' ).
+      r_result = VALUE #( type = 'E' message = 'Erro Desconhecido ao tentar limpar tabela ZTBR_ESTADOS ' ).
     ENDIF.
 
   ENDMETHOD.

@@ -211,7 +211,7 @@ CLASS zcl_http_data_load_uld IMPLEMENTATION.
         r_return = o_upload_handler->process_post_upload( i_post_parameters = i_parameters ).
         RETURN.
 
-      WHEN 'ZBR_ESTADOS'.
+      WHEN 'ZTBR_ESTADOS'.
 
         o_upload_handler = NEW zcl_uld_proc_br_uf( ).
         r_return = o_upload_handler->process_post_upload( i_post_parameters = i_parameters ).

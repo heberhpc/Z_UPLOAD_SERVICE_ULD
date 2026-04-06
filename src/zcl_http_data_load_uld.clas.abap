@@ -200,21 +200,26 @@ CLASS zcl_http_data_load_uld IMPLEMENTATION.
     i_parameters-has_header = to_upper( i_parameters-has_header ).
     i_parameters-table_name = to_upper( i_parameters-table_name ).
 
+    DATA : o_upload_handler TYPE REF TO zif_data_ops_uld.
+
 
     CASE i_parameters-table_name.
 
       WHEN 'ZTCIDADES_IBGE'.
 
-        DATA(o_ztcidades_ibge) = NEW lcl__handler_ztcidades_ibge( ).
-        r_return = o_ztcidades_ibge->zif_data_ops_uld~process_post_upload( i_post_parameters = i_parameters ).
+        o_upload_handler = NEW zcl_uld_proc_ibge_cities( ).
+        r_return = o_upload_handler->process_post_upload( i_post_parameters = i_parameters ).
         RETURN.
 
       WHEN 'ZBR_ESTADOS'.
 
-        r_return = VALUE #( type = |E|
-                         message = |No process defined for the table: { i_parameters-table_name }| ).
+        o_upload_handler = NEW zcl_uld_proc_br_uf( ).
+        r_return = o_upload_handler->process_post_upload( i_post_parameters = i_parameters ).
+        RETURN.
 
       WHEN OTHERS.
+
+        r_return = VALUE #( type = 'E' message = |No process defined for the table: { i_parameters-table_name }| ).
 
     ENDCASE.
 
